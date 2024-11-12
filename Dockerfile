@@ -6,6 +6,7 @@ ARG NACOS_HOST=rust_nacos
 ARG NACOS_PORT=8848
 ENV NACOS_NAMESPACE=test
 WORKDIR /build
+
 COPY . .
 RUN go mod init  gitee.com/zngue_mic/zng_layout
 RUN go mod tidy
