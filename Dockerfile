@@ -1,0 +1,20 @@
+FROM golang:1.23.2 as builder
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,direct
+# nacos host port user pass 设置默认参数
+ARG NACOS_HOST=rust_nacos
+ARG NACOS_PORT=8848
+ENV NACOS_NAMESPACE=test
+WORKDIR /build
+COPY . .
+RUN go mod init  gitee.com/zngue_mic/zng_layout
+RUN go mod tidy
+RUN cd ./cmd/zng_layout && GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -ldflags="-s -w" -installsuffix cgo -o appRun ./...
+
+FROM alpine:latest as prod
+RUN apk add --no-cache tzdata
+ENV TZ=Asia/Shanghai
+WORKDIR /go_run
+COPY --from=builder /build/cmd/test/appRun .
+EXPOSE 2035
+ENTRYPOINT ["./appRun"]

@@ -1,0 +1,6 @@
+protoc --go_out=. /internal/conf/conf.proto
+
+protoc --plugin=protoc-gen-custom=./abc.exe --custom_out=.  app/conf/conf.proto
+
+go build -o abc.exe  cmd/ps_auto/main.go
+## 测试 新备注信息

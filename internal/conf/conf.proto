@@ -1,0 +1,25 @@
+syntax = "proto3";
+option go_package = "internal/conf;conf";
+message Bootstrap{
+  Mysql mysql = 1;
+  Redis redis = 2;
+  App app = 3;
+}
+
+message Mysql{
+  string host = 1;
+  int32 port = 2;
+  string username = 3;
+  string password = 4;
+  string database = 5;
+}
+message App{
+  string name = 1;
+  string version = 2;
+  int32 port = 3;
+}
+message Redis{
+  string host = 1;
+  int32 port = 2;
+  string password = 3;
+}
