@@ -9,6 +9,7 @@ package main
 import (
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_layout/internal/api"
+	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/http"
 	"github.com/zngue/zng_layout/internal/http/v1"
 )
@@ -16,8 +17,9 @@ import (
 // Injectors from wire.go:
 
 // initApp init zng_app application.
-func initApp(port int) (*app.App, func(), error) {
+func initApp(bootstrap *conf.Bootstrap) (*app.App, func(), error) {
 	engine := http.NewHttp()
+	server := http.NewService(bootstrap, engine)
 	routerGroup := http.NewHttpGroup(engine)
 	router := v1.NewRouter(routerGroup)
 	testApi := api.NewTestApi(router)
@@ -26,7 +28,7 @@ func initApp(port int) (*app.App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	appApp := app.NewApp(port, engine, v, v2)
+	appApp := app.NewApp(server, v, v2)
 	return appApp, func() {
 	}, nil
 }

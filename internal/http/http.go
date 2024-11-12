@@ -11,4 +11,5 @@ var ProviderSet = wire.NewSet(
 	NewCron,
 	v1.NewRouter,
 	NewHttpGroup,
+	NewService,
 )

@@ -7,11 +7,12 @@ import (
 	"github.com/google/wire"
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_layout/internal/api"
+	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/http"
 )
 
 // initApp init zng_app application.
-func initApp(port int) (*app.App, func(), error) {
+func initApp(*conf.Bootstrap) (*app.App, func(), error) {
 	panic(
 		wire.Build(
 			api.ProviderSet,

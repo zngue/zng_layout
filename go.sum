@@ -107,8 +107,8 @@ github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2
 github.com/ugorji/go/codec v1.2.12 h1:9LC83zGrHhuUA9l16C9AHXAqEV/2wBQ4nkvumAE65EE=
 github.com/ugorji/go/codec v1.2.12/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
-github.com/zngue/zng_app v0.0.1 h1:+hIbsGUE7S0rwmfaepjVl1CPpuCmUZMb0govIUCsbMQ=
-github.com/zngue/zng_app v0.0.1/go.mod h1:+y7/My1cBdmlLXVnyS8GhoRDSV2ZvPxeR7P+GJoJghE=
+github.com/zngue/zng_app v0.0.2 h1:YPWAYYyv3D6k+brTHJnQJKs+IUXz5dcrMuv5DRfKTZ8=
+github.com/zngue/zng_app v0.0.2/go.mod h1:+y7/My1cBdmlLXVnyS8GhoRDSV2ZvPxeR7P+GJoJghE=
 go.uber.org/atomic v1.6.0 h1:Ezj3JGmsOnG1MoRWQkPBsKLe9DwWD9QeXzTRzzldNVk=
 go.uber.org/atomic v1.6.0/go.mod h1:sABNBOSYdrvTF6hTgEIbc7YasKWGhgEQZyfxyTvoXHQ=
 go.uber.org/multierr v1.5.0 h1:KCa4XfM8CWFCpxXRGok+Q0SS/0XBhMDbHHGABQLvD2A=

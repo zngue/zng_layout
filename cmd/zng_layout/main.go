@@ -47,7 +47,7 @@ func main() {
 		panic(err)
 	}
 	err = app.NewAppRunner(cfg.App.Port, func() (*app.App, func(), error) {
-		return initApp(int(cfg.App.Port))
+		return initApp(cfg)
 	})
 	if err != nil {
 		panic(err)
