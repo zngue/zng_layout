@@ -12,11 +12,19 @@ import (
 func main() {
 	//获取环境变量
 	var (
-		cfg *conf.Bootstrap
-		err error
+		cfg          *conf.Bootstrap
+		err          error
+		oriHost      = "nacos.zngue.com"
+		oriNamespace = "zng_layout"
 	)
 	var host = os.Getenv("HOST")
+	if host == "" {
+		host = oriHost
+	}
 	var namespace = os.Getenv("NAMESPACE")
+	if namespace == "" {
+		namespace = oriNamespace
+	}
 	if len(host) == 0 {
 		panic("配置中心请设置环境变量 HOST")
 	}
@@ -24,21 +32,21 @@ func main() {
 		panic("配置中心请设置环境变量 NAMESPACE")
 	}
 	err = option.NewOption(&cfg, &option.Option{
-		GroupName: "test",
+		GroupName: "zng_layout",
 		NaFns: []nacos.Fn{
 			nacos.DataWithLogLevel(nacos.INFO),
 			nacos.DataWithAppendToStdout(true),
 			nacos.DataWithHost(host),
 		},
 		CFns: []config.Fn{
-			config.WithDataConfig("nacos", "config.yaml"),
+			config.WithDataId("config.yaml"),
 		},
 		RegisterNaFn: func(fn *nacos.CenterOptions) (fnErr error) {
 			fnErr = fn.RegisterInstance(&nacos.RegisterInstanceParam{
 				Port:        cfg.App.Port,
-				ClusterName: "zng_app",
-				ServiceName: "zng_app",
-				GroupName:   "test",
+				ClusterName: "zng_layout",
+				ServiceName: "zng_layout",
+				GroupName:   "zng_layout",
 			})
 			return
 		},
