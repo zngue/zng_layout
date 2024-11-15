@@ -9,16 +9,16 @@ import (
 	"github.com/zngue/zng_layout/internal/api"
 	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/http"
+	"github.com/zngue/zng_layout/internal/model"
 )
 
 // initApp init zng_app application.
 func initApp(*conf.Bootstrap) (*app.App, func(), error) {
-	panic(
-		wire.Build(
-			api.ProviderSet,
-			http.ProviderSet,
-			app.NewApp,
-		),
-	)
+	panic(wire.Build(
+		model.ProviderSet,
+		api.ProviderSet,
+		http.ProviderSet,
+		app.NewApp,
+	))
 
 }

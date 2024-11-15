@@ -12,6 +12,7 @@ import (
 	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/http"
 	"github.com/zngue/zng_layout/internal/http/v1"
+	"github.com/zngue/zng_layout/internal/model"
 )
 
 // Injectors from wire.go:
@@ -22,7 +23,14 @@ func initApp(bootstrap *conf.Bootstrap) (*app.App, func(), error) {
 	server := http.NewService(bootstrap, engine)
 	routerGroup := http.NewHttpGroup(engine)
 	router := v1.NewRouter(routerGroup)
-	testApi := api.NewTestApi(router)
+	db, err := model.NewDB(bootstrap)
+	if err != nil {
+		return nil, nil, err
+	}
+	dataDB := model.NewTest(db)
+	db2 := model.NewUser(db)
+	db3 := model.NewMember(db)
+	testApi := api.NewTestApi(router, dataDB, db2, db3)
 	v := http.NewRouter(testApi)
 	v2, err := http.NewCron()
 	if err != nil {
