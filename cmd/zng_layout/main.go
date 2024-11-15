@@ -18,6 +18,7 @@ func main() {
 		oriHost      = "nacos.zngue.com"
 		oriNamespace = "develop"
 		httpPort     = 16666
+		groupName    = "zng_layout"
 	)
 	var host = os.Getenv("HOST")
 	if host == "" {
@@ -41,7 +42,7 @@ func main() {
 		panic("配置中心请设置环境变量 NAMESPACE")
 	}
 	err = option.NewOption(&cfg, &option.Option{
-		GroupName: "zng_layout",
+		GroupName: groupName,
 		NaFns: []nacos.Fn{
 			nacos.DataWithLogLevel(nacos.INFO),
 			nacos.DataWithAppendToStdout(true),
@@ -53,9 +54,9 @@ func main() {
 		RegisterNaFn: func(fn *nacos.CenterOptions) (fnErr error) {
 			fnErr = fn.RegisterInstance(&nacos.RegisterInstanceParam{
 				Port:        cfg.App.Port,
-				ClusterName: "zng_layout",
-				ServiceName: "zng_layout",
-				GroupName:   "zng_layout",
+				ClusterName: groupName,
+				ServiceName: groupName,
+				GroupName:   groupName,
 			})
 			return
 		},

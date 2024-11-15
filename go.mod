@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/wire v0.6.0
-	github.com/zngue/zng_app v0.0.4
+	github.com/zngue/zng_app v0.0.5
 	google.golang.org/protobuf v1.34.1
 )
 
