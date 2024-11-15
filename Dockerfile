@@ -19,6 +19,6 @@ FROM alpine:latest as prod
 RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
 WORKDIR /go_run
-COPY --from=builder /build/cmd/test/appRun .
+COPY --from=builder /build/cmd/zng_layout/appRun .
 EXPOSE  $HTTP_PORT
 ENTRYPOINT ["./appRun"]

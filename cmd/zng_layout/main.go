@@ -34,7 +34,7 @@ func main() {
 	if namespace == "" {
 		namespace = oriNamespace
 	}
-	var port = os.Getenv("PORT")
+	var port = os.Getenv("HTTP_PORT")
 	if port != "" {
 		oriPort, _ := strconv.Atoi(port)
 		if oriPort > 0 {
