@@ -18,7 +18,7 @@ func main() {
 		oriHost      = "nacos.zngue.com"
 		oriNamespace = "develop"
 		httpPort     = 16666
-		groupName    = "zng_layout"
+		groupName    = "common"
 	)
 	var host = os.Getenv("HOST")
 	if host == "" {
