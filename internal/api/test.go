@@ -1,7 +1,9 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/zngue/zng_app/db/api"
 	"github.com/zngue/zng_app/db/data"
 	v1 "github.com/zngue/zng_layout/internal/http/v1"
 	"github.com/zngue/zng_layout/internal/model"
@@ -31,6 +33,20 @@ func (u *TestApi) Info(context *gin.Context) {
 	context.JSON(200, gin.H{
 		"message": "pong---2--test--Info",
 	})
+}
+
+// UserList 用户列表
+func (u *TestApi) UserList(ctx *gin.Context) {
+	dataList, err := u.userConn.ListFn(
+		data.WhereStruct(nil),
+	)
+	api.DataWithErr(ctx, err, dataList)
+}
+
+// Err
+func (u *TestApi) Err(ctx *gin.Context) {
+
+	api.DataError(ctx, fmt.Errorf("test"))
 }
 func (u *TestApi) Router() {
 	var route = u.v1.GetNotLogin("test")
