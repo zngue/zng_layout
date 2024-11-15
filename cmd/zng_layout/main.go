@@ -7,6 +7,7 @@ import (
 	"github.com/zngue/zng_app/config/option"
 	"github.com/zngue/zng_layout/internal/conf"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 		err          error
 		oriHost      = "nacos.zngue.com"
 		oriNamespace = "zng_layout"
+		httpPort     = 16666
 	)
 	var host = os.Getenv("HOST")
 	if host == "" {
@@ -24,6 +26,13 @@ func main() {
 	var namespace = os.Getenv("NAMESPACE")
 	if namespace == "" {
 		namespace = oriNamespace
+	}
+	var port = os.Getenv("PORT")
+	if port != "" {
+		oriPort, _ := strconv.Atoi(port)
+		if oriPort > 0 {
+			httpPort = oriPort
+		}
 	}
 	if len(host) == 0 {
 		panic("配置中心请设置环境变量 HOST")
@@ -54,7 +63,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = app.NewAppRunner(cfg.App.Port, func() (*app.App, func(), error) {
+	err = app.NewAppRunner(int32(httpPort), func() (*app.App, func(), error) {
+		cfg.App.Port = int32(httpPort)
 		return initApp(cfg)
 	})
 	if err != nil {

@@ -4,7 +4,9 @@ ENV GOPROXY=https://goproxy.cn,direct
 # nacos host port user pass 设置默认参数
 ARG NACOS_HOST=rust_nacos
 ARG NACOS_PORT=8848
-ENV NACOS_NAMESPACE=test
+ENV NACOS_NAMESPACE=develop
+# 设置监听端口
+ENV HTTP_PORT=16666
 WORKDIR /build
 #666
 COPY . .
@@ -17,5 +19,5 @@ RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
 WORKDIR /go_run
 COPY --from=builder /build/cmd/test/appRun .
-EXPOSE 2035
+EXPOSE  $HTTP_PORT
 ENTRYPOINT ["./appRun"]
