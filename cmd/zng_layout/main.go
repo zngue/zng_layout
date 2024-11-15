@@ -51,7 +51,7 @@ func main() {
 		GroupName: configGroup,
 		NaFns: []nacos.Fn{
 			nacos.DataWithLogLevel(nacos.INFO),
-			nacos.DataWithAppendToStdout(true),
+			nacos.DataWithAppendToStdout(false),
 			nacos.DataWithHost(host),
 		},
 		CFns: []config.Fn{
