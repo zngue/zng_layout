@@ -16,7 +16,7 @@ func main() {
 		cfg          *conf.Bootstrap
 		err          error
 		oriHost      = "nacos.zngue.com"
-		oriNamespace = "zng_layout"
+		oriNamespace = "develop"
 		httpPort     = 16666
 	)
 	var host = os.Getenv("HOST")
