@@ -58,6 +58,7 @@ func main() {
 			config.WithDataId("config.yaml"),
 		},
 		RegisterNaFn: func(fn *nacos.CenterOptions) (fnErr error) {
+			cfg.App.Port = int32(httpPort)
 			fnErr = fn.RegisterInstance(&nacos.RegisterInstanceParam{
 				Port:        cfg.App.Port,
 				ClusterName: serviceName,
@@ -71,7 +72,6 @@ func main() {
 		panic(err)
 	}
 	err = app.NewAppRunner(int32(httpPort), func() (*app.App, func(), error) {
-		cfg.App.Port = int32(httpPort)
 		return initApp(cfg)
 	})
 	if err != nil {
