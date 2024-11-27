@@ -1,0 +1,27 @@
+networks:
+  sw_zngue_network:
+    name: sw_zngue_network
+    driver: overlay  # 修改为 overlay 驱动
+services:
+  zng_layout:
+    build: .
+    image: zngue/zng_layout:latest
+    restart: always
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: "100M"
+    env_file:
+      - .env
+    volumes:
+      - ./nacos:/go_run/nacos
+    ports:
+      - "${HTTP_PORT:-16669}:${HTTP_PORT:-16669}"
+    networks:
+      - sw_zngue_network
+
+

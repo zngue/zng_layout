@@ -8,13 +8,14 @@ services:
     image: zngue/zng_layout:latest
     restart: always
     container_name: zng_layout
-    volumes:
-      - ./nacos:/go_run/nacos
     env_file:
       - .env
+    volumes:
+      - ./nacos:/go_run/nacos
     ports:
       - "${HTTP_PORT:-16666}:${HTTP_PORT:-16666}"
     networks:
       - zngue_network
+
 
 
