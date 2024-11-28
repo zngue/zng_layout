@@ -1,0 +1,22 @@
+# 单机部署
+version: "3.9"
+networks:
+  zngue_network:
+    external: true
+services:
+  zng_layout:
+    build: .
+    image: zngue/zng_layout:latest
+    restart: always
+    container_name: zng_layout
+    env_file:
+      - .env
+    volumes:
+      - ./nacos:/go_run/nacos
+    ports:
+      - "${HTTP_PORT:-16666}:${HTTP_PORT:-16666}"
+    networks:
+      - zngue_network
+
+
+

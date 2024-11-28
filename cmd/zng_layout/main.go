@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/config"
 	"github.com/zngue/zng_app/config/nacos"
 	"github.com/zngue/zng_app/config/option"
 	"github.com/zngue/zng_layout/internal/conf"
+	"gopkg.in/natefinch/lumberjack.v2"
+	"log"
 	"os"
 	"strconv"
 )
@@ -19,18 +22,19 @@ func main() {
 		oriNamespace = "develop"
 		httpPort     = 16666
 		configGroup  = "common"
-		serviceName  = "zng_layout"
+		serviceName  = "idea-sales"
 	)
-	var host = os.Getenv("HOST")
+	var host = os.Getenv("NACOS_HOST")
 	if host == "" {
 		host = oriHost
 	}
+	fmt.Println("host---------------host", host)
 	//设置配置文件默认值
 	var dbGroupName = os.Getenv("DB_GROUP")
 	if dbGroupName != "" {
 		configGroup = dbGroupName
 	}
-	var namespace = os.Getenv("NAMESPACE")
+	var namespace = os.Getenv("NACOS_NAMESPACE")
 	if namespace == "" {
 		namespace = oriNamespace
 	}
@@ -44,9 +48,11 @@ func main() {
 	if len(host) == 0 {
 		panic("配置中心请设置环境变量 HOST")
 	}
+	NewLog()
 	if len(namespace) == 0 {
 		panic("配置中心请设置环境变量 NAMESPACE")
 	}
+	//开启日志文件
 	err = option.NewOption(&cfg, &option.Option{
 		GroupName: configGroup,
 		NaFns: []nacos.Fn{
@@ -77,4 +83,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+func NewLog() {
+	log.SetOutput(&lumberjack.Logger{
+		Filename:   "nacos/err.log",
+		MaxSize:    500, // megabytes
+		MaxBackups: 3,
+		MaxAge:     28,   //days
+		Compress:   true, // disabled by default
+	})
+	log.Println("hello")
 }

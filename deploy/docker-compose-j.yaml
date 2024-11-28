@@ -1,3 +1,4 @@
+# 集群部署
 networks:
   sw_zngue_network:
     name: sw_zngue_network
