@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/db/api"
 	"github.com/zngue/zng_app/db/data"
 	v1 "github.com/zngue/zng_layout/internal/http/v1"
@@ -14,6 +15,7 @@ type TestApi struct {
 	testConn   *data.DB[model.Test]
 	userConn   *data.DB[model.User]
 	memberConn *data.DB[model.Member]
+	app.ApiService
 }
 
 func NewTestApi(
@@ -48,7 +50,13 @@ func (u *TestApi) Err(ctx *gin.Context) {
 
 	api.DataError(ctx, fmt.Errorf("test"))
 }
-func (u *TestApi) Router() {
-	var route = u.v1.GetNotLogin("test")
-	route.GET("info", u.Info)
+func (u *TestApi) Content(ctx *gin.Context) (data any, err error) {
+
+	return
+}
+func (u *TestApi) Run() []*app.Api {
+	route := u.v1.GetNotLogin("test")
+	return app.ApiServiceFn(
+		app.ApiFn(route, app.GET, "list", u.Content),
+	)
 }

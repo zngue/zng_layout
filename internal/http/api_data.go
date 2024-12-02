@@ -5,8 +5,8 @@ import (
 	"github.com/zngue/zng_layout/internal/api"
 )
 
-func NewRouter(testApi *api.TestApi, cateApi *api.CateApi) (routes []app.Router) {
-	return []app.Router{
+func NewApiService(testApi *api.TestApi, cateApi *api.CateApi) []app.IApiService {
+	return []app.IApiService{
 		testApi,
 		cateApi,
 	}

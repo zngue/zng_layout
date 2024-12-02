@@ -2,12 +2,14 @@ module github.com/zngue/zng_layout
 
 go 1.23.2
 
+//replace github.com/zngue/zng_app => G:\zngue\go\zng_app
+
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/wire v0.6.0
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/redis/go-redis/v9 v9.7.0
-	github.com/zngue/zng_app v0.0.10
+	//github.com/zngue/zng_app v0.0.0-00010101000000-000000000000
 	go.uber.org/zap v1.15.0
 	google.golang.org/protobuf v1.34.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
@@ -15,8 +17,10 @@ require (
 	gorm.io/gorm v1.25.12
 )
 
+require github.com/zngue/zng_app v0.0.11
+
 require (
-	github.com/aliyun/alibaba-cloud-sdk-go v1.63.59 // indirect
+	github.com/aliyun/alibaba-cloud-sdk-go v1.63.61 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect

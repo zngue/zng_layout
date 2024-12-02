@@ -33,12 +33,13 @@ func initApp(bootstrap *conf.Bootstrap) (*app.App, func(), error) {
 	testApi := api.NewTestApi(router, dataDB, db2, db3)
 	db4 := model.NewCate(db)
 	cateApi := api.NewCateApi(router, db4)
-	v := http.NewRouter(testApi, cateApi)
-	v2, err := http.NewCron()
+	v := http.NewApiService(testApi, cateApi)
+	v2 := app.NewRouter(v)
+	v3, err := http.NewCron()
 	if err != nil {
 		return nil, nil, err
 	}
-	appApp := app.NewApp(server, v, v2)
+	appApp := app.NewApp(server, v2, v3)
 	return appApp, func() {
 	}, nil
 }
