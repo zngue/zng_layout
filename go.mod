@@ -2,22 +2,22 @@ module github.com/zngue/zng_layout
 
 go 1.23.2
 
-//replace github.com/zngue/zng_app => G:\zngue\go\zng_app
+replace github.com/zngue/zng_app => G:\zngue\go\zng_app
 
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/wire v0.6.0
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/redis/go-redis/v9 v9.7.0
-	//github.com/zngue/zng_app v0.0.0-00010101000000-000000000000
-	go.uber.org/zap v1.15.0
+	//github.com/zngue/zng_app v0.0.11
+	go.uber.org/zap v1.21.0
 	google.golang.org/protobuf v1.34.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
 
-require github.com/zngue/zng_app v0.0.11
+require github.com/zngue/zng_app v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.63.61 // indirect
@@ -54,7 +54,7 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
-	go.uber.org/multierr v1.5.0 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/crypto v0.26.0 // indirect
 	golang.org/x/net v0.28.0 // indirect

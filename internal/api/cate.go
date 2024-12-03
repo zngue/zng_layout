@@ -1,14 +1,18 @@
 package api
 
 import (
+	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/db/api"
 	"github.com/zngue/zng_app/db/data"
 	"github.com/zngue/zng_app/db/data/page"
 	"github.com/zngue/zng_app/db/data/where"
+	"github.com/zngue/zng_app/log"
 	v1 "github.com/zngue/zng_layout/internal/http/v1"
 	"github.com/zngue/zng_layout/internal/model"
+	"io"
 )
 
 type CateApi struct {
@@ -29,29 +33,66 @@ func NewCateApi(
 func (c *CateApi) Run() []*app.Api {
 	route := c.v1.GetNotLogin("cate")
 	return app.ApiServiceFn(
-		app.ApiFn(route, app.GET, "list", c.Content),
+		app.ApiFn(route, app.GET, "content", c.Content),
+		app.ApiFn(route, app.GET, "list", c.List),
+		app.ApiFn(route, app.POST, "transOut", c.TransOut),
+		app.ApiFn(route, app.POST, "transIn", c.TransIn),
+		app.ApiFn(route, app.POST, "transOutCompensate", c.TransOutCompensate),
+		app.ApiFn(route, app.POST, "transInCompensate", c.TransInCompensate),
 	)
 }
 
-func (c *CateApi) List(ctx *gin.Context) {
+//TransOutCompensate
+
+func (c *CateApi) TransOutCompensate(ctx *gin.Context) (rs any, err error) {
+	fmt.Println("TransOutCompensate")
+	err = errors.New("TransOutCompensate")
+	return
+}
+func (c *CateApi) TransInCompensate(ctx *gin.Context) (rs any, err error) {
+	fmt.Println("TransInCompensate")
+	err = errors.New("TransInCompensate")
+	return
+}
+
+func (c *CateApi) TransOut(ctx *gin.Context) (rs any, err error) {
+	fmt.Println(io.ReadAll(ctx.Request.Body))
+	fmt.Println("TransOut")
+	err = errors.New("TransOut")
+	return
+}
+func (c *CateApi) TransIn(ctx *gin.Context) (rs any, err error) {
+	fmt.Println("TransIn")
+	fmt.Println(io.ReadAll(ctx.Request.Body))
+	err = errors.New("TransIn")
+	return
+}
+
+func (c *CateApi) List(ctx *gin.Context) (rs any, err error) {
 	list, err := c.cateConn.ListFn(
 		data.PageWithData(
 			page.DataWithPage(-1),
 		),
+		data.WhereOption(),
 	)
-	resData, err := c.cateConn.ContentFn(data.WhereOption(
-		where.DataWhereOption("ids", where.Gt, 100),
-	))
 	if err != nil {
-		api.DataError(ctx, err)
 		return
 	}
-	api.DataWithErr(ctx, err, map[string]any{
-		"list": list,
-		"data": resData,
-	})
+	resData, err := c.cateConn.ContentFn(data.WhereOption(
+		where.DataWhereOption("id", where.Gt, 100),
+	))
+	if err != nil {
+		log.Errorf("test，%s", "刪除信息")
+		err = api.ErrParameter
+		return
+	}
+	rs = map[string]any{
+		"content": resData,
+		"list":    list,
+	}
+	return
 }
-func (c *CateApi) Content(ctx *gin.Context) (data any, err error) {
-
+func (c *CateApi) Content(ctx *gin.Context) (rs any, err error) {
+	rs, err = c.cateConn.ContentFn(data.WhereOption(where.DataWhereOption("id", where.Like, "6")))
 	return
 }

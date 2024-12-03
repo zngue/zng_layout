@@ -134,7 +134,9 @@ func (l *GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (stri
 		l.logger().Error("trace", data...)
 	case l.SlowThreshold != 0 && elapsed > l.SlowThreshold && l.LogLevel >= gormlogger.Warn:
 		sql, rows := fc()
-		data = append(data, zap.Duration("elapsed", elapsed), zap.Int64("rows", rows), zap.String("sql", sql))
+		data = append(
+			data,
+			zap.Duration("elapsed", elapsed), zap.Int64("rows", rows), zap.String("sql", sql))
 		l.logger().Warn("trace", data...)
 	case l.LogLevel >= gormlogger.Info:
 		sql, rows := fc()

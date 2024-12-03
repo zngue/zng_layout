@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/redis/go-redis/v9"
+	"github.com/zngue/zng_app/log"
 	mysqlCfg "github.com/zngue/zng_layout/db/mysql"
 	redisCfg "github.com/zngue/zng_layout/db/redis"
 	"gorm.io/driver/mysql"
@@ -88,13 +89,13 @@ func NewDB(fns ...mysqlCfg.Fn) (db *gorm.DB, err error) {
 	var (
 		sqlDB *sql.DB
 	)
-	newLogger := NewLog()
+	newLog := log.NewLog(5)
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
 		SkipDefaultTransaction: true,
-		Logger:                 newLogger,
+		Logger:                 newLog,
 	})
 	if err != nil {
 		return
