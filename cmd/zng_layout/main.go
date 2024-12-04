@@ -22,7 +22,7 @@ func main() {
 		oriNamespace = "develop"
 		httpPort     = 16666
 		configGroup  = "common"
-		serviceName  = "idea-sales"
+		serviceName  = "zng_layout"
 	)
 	var host = os.Getenv("NACOS_HOST")
 	if host == "" {
