@@ -6,5 +6,4 @@ import (
 
 var ProviderSet = wire.NewSet(
 	NewTestApi,
-	NewCateApi,
 )

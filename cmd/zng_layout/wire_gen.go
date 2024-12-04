@@ -31,9 +31,7 @@ func initApp(bootstrap *conf.Bootstrap) (*app.App, func(), error) {
 	db2 := model.NewUser(db)
 	db3 := model.NewMember(db)
 	testApi := api.NewTestApi(router, dataDB, db2, db3)
-	db4 := model.NewCate(db)
-	cateApi := api.NewCateApi(router, db4)
-	v := http.NewApiService(testApi, cateApi)
+	v := http.NewApiService(testApi)
 	v2 := app.NewRouter(v)
 	v3, err := http.NewCron()
 	if err != nil {

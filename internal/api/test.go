@@ -51,7 +51,6 @@ func (u *TestApi) Err(ctx *gin.Context) {
 	api.DataError(ctx, fmt.Errorf("test"))
 }
 func (u *TestApi) Content(ctx *gin.Context) (data any, err error) {
-
 	return
 }
 func (u *TestApi) Run() []*app.Api {

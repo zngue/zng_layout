@@ -5,9 +5,8 @@ import (
 	"github.com/zngue/zng_layout/internal/api"
 )
 
-func NewApiService(testApi *api.TestApi, cateApi *api.CateApi) []app.IApiService {
+func NewApiService(testApi *api.TestApi) []app.IApiService {
 	return []app.IApiService{
 		testApi,
-		cateApi,
 	}
 }
