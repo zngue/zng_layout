@@ -37,8 +37,8 @@ func (c *CateApi) Run() []*app.Api {
 		app.ApiFn(route, app.GET, "list", c.List),
 		app.ApiFn(route, app.POST, "transOut", c.TransOut),
 		app.ApiFn(route, app.POST, "transIn", c.TransIn),
-		app.ApiFn(route, app.POST, "transOutCompensate", c.TransOutCompensate),
-		app.ApiFn(route, app.POST, "transInCompensate", c.TransInCompensate),
+		app.ApiGetFn(route, "transOutCompensate", c.TransOutCompensate),
+		app.ApiGetFn(route, "transInCompensate", c.TransInCompensate),
 	)
 }
 
@@ -46,12 +46,18 @@ func (c *CateApi) Run() []*app.Api {
 
 func (c *CateApi) TransOutCompensate(ctx *gin.Context) (rs any, err error) {
 	fmt.Println("TransOutCompensate")
-	err = errors.New("TransOutCompensate")
+	rs = api.NewDataApi(320, map[string]any{
+		"dtm_result": "FAILURE",
+		"message":    "current status 'failed', cannot prepare TransOutCompensate",
+	})
 	return
 }
 func (c *CateApi) TransInCompensate(ctx *gin.Context) (rs any, err error) {
 	fmt.Println("TransInCompensate")
-	err = errors.New("TransInCompensate")
+	err = api.NewError(409, map[string]any{
+		"dtm_result": "FAILURE",
+		"message":    "current status 'failed', cannot prepare TransOutCompensate",
+	})
 	return
 }
 

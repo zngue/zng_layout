@@ -6,7 +6,7 @@ sleep 2
 git push gitee-origin
 echo  "gitee 推送成功"
 
-version=${1:-"v0.0.6"}
+version=${1:-"v0.0.7"}
 git tag -d "${version}"
 git push origin :refs/tags/"${version}"
 msg=${2:-"Release ${version}"}

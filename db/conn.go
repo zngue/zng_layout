@@ -89,7 +89,7 @@ func NewDB(fns ...mysqlCfg.Fn) (db *gorm.DB, err error) {
 	var (
 		sqlDB *sql.DB
 	)
-	newLog := log.NewLog(5)
+	newLog := log.NewLog(nil)
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
