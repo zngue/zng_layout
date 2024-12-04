@@ -11,38 +11,19 @@ import (
 )
 
 type TestApi struct {
-	v1         *v1.Router
-	testConn   *data.DB[model.Test]
-	userConn   *data.DB[model.User]
-	memberConn *data.DB[model.Member]
+	v1       *v1.Router
+	testConn *data.DB[model.Test]
 	app.ApiService
 }
 
 func NewTestApi(
 	v1 *v1.Router,
 	testConn *data.DB[model.Test],
-	userConn *data.DB[model.User],
-	memberConn *data.DB[model.Member],
 ) *TestApi {
 	return &TestApi{
-		v1:         v1,
-		testConn:   testConn,
-		userConn:   userConn,
-		memberConn: memberConn,
+		v1:       v1,
+		testConn: testConn,
 	}
-}
-func (u *TestApi) Info(context *gin.Context) {
-	context.JSON(200, gin.H{
-		"message": "pong---2--test--Info",
-	})
-}
-
-// UserList 用户列表
-func (u *TestApi) UserList(ctx *gin.Context) {
-	dataList, err := u.userConn.ListFn(
-		data.WhereStruct(nil),
-	)
-	api.DataWithErr(ctx, err, dataList)
 }
 
 // Err
