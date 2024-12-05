@@ -7,6 +7,8 @@ ENV NACOS_NAMESPACE=develop
 # 设置监听端口
 ENV HTTP_PORT=16669
 ENV DB_GROUP=common
+# 数据库
+ENV DB_DATABASE=blog
 WORKDIR /build
 #666
 COPY . .

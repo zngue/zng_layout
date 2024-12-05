@@ -8,10 +8,15 @@ import (
 	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/pkg/util"
 	"gorm.io/gorm"
+	"os"
 )
 
 func NewDB(bootstrap *conf.Bootstrap) (conn *gorm.DB, err error) {
 	var config = bootstrap.Mysql
+	database := os.Getenv("DB_DATABASE")
+	if database != "" {
+		config.Database = database
+	}
 	conn, err = db.NewDB(
 		mysql.DataWithDatabase(config.Database),
 		mysql.DataWithHost(config.Host),
