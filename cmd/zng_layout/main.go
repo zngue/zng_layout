@@ -6,9 +6,9 @@ import (
 	"github.com/zngue/zng_app/config"
 	"github.com/zngue/zng_app/config/nacos"
 	"github.com/zngue/zng_app/config/option"
+	"github.com/zngue/zng_app/log"
 	"github.com/zngue/zng_layout/internal/conf"
-	"gopkg.in/natefinch/lumberjack.v2"
-	"log"
+	"github.com/zngue/zng_layout/pkg/util"
 	"os"
 	"strconv"
 )
@@ -28,16 +28,18 @@ func main() {
 	if host == "" {
 		host = oriHost
 	}
-	fmt.Println("host---------------host", host)
+	log.Info(fmt.Sprintf("nacos host %s", host))
 	//设置配置文件默认值
 	var dbGroupName = os.Getenv("DB_GROUP")
 	if dbGroupName != "" {
 		configGroup = dbGroupName
 	}
+	log.Info(fmt.Sprintf("db group name %s", dbGroupName))
 	var namespace = os.Getenv("NACOS_NAMESPACE")
 	if namespace == "" {
 		namespace = oriNamespace
 	}
+	log.Info(fmt.Sprintf("nacos namespace %s", namespace))
 	var port = os.Getenv("HTTP_PORT")
 	if port != "" {
 		oriPort, _ := strconv.Atoi(port)
@@ -45,10 +47,10 @@ func main() {
 			httpPort = oriPort
 		}
 	}
+	log.Info(fmt.Sprintf("http port %d", httpPort))
 	if len(host) == 0 {
 		panic("配置中心请设置环境变量 HOST")
 	}
-	NewLog()
 	if len(namespace) == 0 {
 		panic("配置中心请设置环境变量 NAMESPACE")
 	}
@@ -75,22 +77,14 @@ func main() {
 		},
 	})
 	if err != nil {
+		log.Errorf("load config err NewOption err %v", err)
 		panic(err)
 	}
+	log.NewLog(util.LogConfig())
 	err = app.NewAppRunner(int32(httpPort), func() (*app.App, func(), error) {
 		return initApp(cfg)
 	})
 	if err != nil {
 		panic(err)
 	}
-}
-func NewLog() {
-	log.SetOutput(&lumberjack.Logger{
-		Filename:   "nacos/err.log",
-		MaxSize:    500, // megabytes
-		MaxBackups: 3,
-		MaxAge:     28,   //days
-		Compress:   true, // disabled by default
-	})
-	log.Println("hello")
 }
