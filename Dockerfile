@@ -8,7 +8,7 @@ ENV NACOS_NAMESPACE=develop
 ENV HTTP_PORT=16669
 ENV DB_GROUP=common
 # 数据库
-ENV DB_DATABASE=blog
+ENV DB_DATABASE=""
 #  info debug warn error
 ENV LOG_LEVEL=info
 ENV LOG_URL=""
