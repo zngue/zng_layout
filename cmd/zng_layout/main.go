@@ -35,6 +35,7 @@ func main() {
 		configGroup = dbGroupName
 	}
 	log.Info(fmt.Sprintf("db group name %s", dbGroupName))
+	log.Info(fmt.Errorf("nacos host %s", host))
 	var namespace = os.Getenv("NACOS_NAMESPACE")
 	if namespace == "" {
 		namespace = oriNamespace
