@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/zngue/zng_app"
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/config"
 	"github.com/zngue/zng_app/config/nacos"
@@ -20,11 +21,12 @@ func main() {
 		err          error
 		oriHost      = "nacos.zngue.com"
 		oriNamespace = "develop"
-		httpPort     = 16666
+		httpPort     = 16667
 		configGroup  = "common"
 		serviceName  = "zng_layout"
 	)
-	app.AppName = serviceName
+	zng_app.AppName = serviceName
+	zng_app.SyncLogger = true
 	log.NewLog(util.LogConfig())
 	var host = os.Getenv("NACOS_HOST")
 	if host == "" {
