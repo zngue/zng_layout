@@ -9,6 +9,9 @@ ENV HTTP_PORT=16669
 ENV DB_GROUP=common
 # 数据库
 ENV DB_DATABASE=blog
+#  info debug warn error
+ENV LOG_LEVEL=info
+ENV LOG_URL=""
 WORKDIR /build
 #666
 COPY . .

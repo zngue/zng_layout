@@ -28,7 +28,10 @@ func NewDB(bootstrap *conf.Bootstrap) (conn *gorm.DB, err error) {
 	if err != nil {
 		return
 	}
-	conn = conn.Debug()
+	level := os.Getenv("LOG_LEVEL")
+	if level == "debug" {
+		conn = conn.Debug()
+	}
 	return
 
 }
