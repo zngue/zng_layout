@@ -24,6 +24,8 @@ func main() {
 		configGroup  = "common"
 		serviceName  = "zng_layout"
 	)
+	app.AppName = serviceName
+	log.NewLog(util.LogConfig())
 	var host = os.Getenv("NACOS_HOST")
 	if host == "" {
 		host = oriHost
@@ -35,7 +37,6 @@ func main() {
 		configGroup = dbGroupName
 	}
 	log.Info(fmt.Sprintf("db group name %s", dbGroupName))
-	log.Info(fmt.Errorf("nacos host %s", host))
 	var namespace = os.Getenv("NACOS_NAMESPACE")
 	if namespace == "" {
 		namespace = oriNamespace
@@ -81,11 +82,12 @@ func main() {
 		log.Errorf("load config err NewOption err %v", err)
 		panic(err)
 	}
-	log.NewLog(util.LogConfig())
+
 	err = app.NewAppRunner(int32(httpPort), func() (*app.App, func(), error) {
 		return initApp(cfg)
 	})
 	if err != nil {
+		log.Errorf("load config err NewAppRunner err %v", err)
 		panic(err)
 	}
 }
