@@ -13,3 +13,4 @@ docker builder prune -f
 echo "缓存镜像清理完成"
 docker system prune -f
 echo "清理完成"
+docker image prune -a -f
