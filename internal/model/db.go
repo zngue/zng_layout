@@ -23,6 +23,7 @@ func NewDB(bootstrap *conf.Bootstrap) (conn *gorm.DB, err error) {
 		mysql.DataWithPassword(config.Password),
 		mysql.DataWithPort(int(config.Port)),
 		mysql.DataWithUserName(config.Username),
+		mysql.DataWithLogger(true),
 		mysql.DataWithLoggerConfig(util.LogConfig()),
 	)
 	if err != nil {

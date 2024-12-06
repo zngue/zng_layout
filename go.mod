@@ -2,14 +2,18 @@ module github.com/zngue/zng_layout
 
 go 1.23.2
 
+//replace github.com/zngue/zng_app => G:\zngue\go\zng_app
+
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/wire v0.6.0
 	github.com/redis/go-redis/v9 v9.7.0
-	github.com/zngue/zng_app v0.0.18
+	//github.com/zngue/zng_app v0.0.0-00010101000000-000000000000
 	google.golang.org/protobuf v1.34.1
 	gorm.io/gorm v1.25.12
 )
+
+require github.com/zngue/zng_app v0.0.20
 
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.63.61 // indirect
