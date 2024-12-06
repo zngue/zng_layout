@@ -2,7 +2,6 @@ module github.com/zngue/zng_layout
 
 go 1.23.2
 
-
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/wire v0.6.0
@@ -11,7 +10,7 @@ require (
 	gorm.io/gorm v1.25.12
 )
 
-require github.com/zngue/zng_app v0.0.20
+require github.com/zngue/zng_app v0.0.21
 
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.63.61 // indirect
