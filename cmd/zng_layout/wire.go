@@ -8,17 +8,19 @@ import (
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_layout/internal/api"
 	"github.com/zngue/zng_layout/internal/conf"
-	"github.com/zngue/zng_layout/internal/http"
+	"github.com/zngue/zng_layout/internal/cron"
 	"github.com/zngue/zng_layout/internal/model"
+	"github.com/zngue/zng_layout/internal/server"
 )
 
 // initApp init zng_app application.
-func initApp(*conf.Bootstrap) (*app.App, func(), error) {
+func initApp(cfg *conf.Bootstrap) (*app.App, func(), error) {
 	panic(wire.Build(
 		model.ProviderSet,
 		api.ProviderSet,
-		http.ProviderSet,
-		app.NewApp,
+		server.ProviderSet,
+		cron.ProviderSet,
+		app.ProviderSet,
 	))
 
 }

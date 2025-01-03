@@ -3,17 +3,17 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/db/api"
 	"github.com/zngue/zng_app/db/data"
-	v1 "github.com/zngue/zng_layout/internal/http/v1"
+	"github.com/zngue/zng_app/pkg/router"
 	"github.com/zngue/zng_layout/internal/model"
+	v1 "github.com/zngue/zng_layout/internal/server/http/v1"
 )
 
 type TestApi struct {
 	v1       *v1.Router
 	testConn *data.DB[model.Test]
-	app.ApiService
+	router.ApiService
 }
 
 func NewTestApi(
@@ -34,9 +34,9 @@ func (u *TestApi) Err(ctx *gin.Context) {
 func (u *TestApi) Content(ctx *gin.Context) (data any, err error) {
 	return
 }
-func (u *TestApi) Run() []*app.Api {
-	route := u.v1.GetNotLogin("test")
-	return app.ApiServiceFn(
-		app.ApiFn(route, app.GET, "list", u.Content),
+func (u *TestApi) Register() []*router.Api {
+	route := u.v1.Routes("test")
+	return router.ApiServiceFn(
+		router.ApiFn(route, router.GET, "list", u.Content),
 	)
 }

@@ -3,12 +3,13 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/zngue/zng_app/db/api"
-	"github.com/zngue/zng_app/log"
 )
+
+type V1LoginRouter *gin.RouterGroup
 
 func NewHttp() *gin.Engine {
 	engine := gin.New()
-	engine.Use(gin.Recovery(), gin.Logger(), log.RequestGinLog())
+	engine.Use(gin.Recovery(), gin.Logger())
 	engine.GET("/ping", func(ctx *gin.Context) {
 		api.DataSuccess(ctx)
 		return
