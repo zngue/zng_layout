@@ -2,12 +2,18 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 	"github.com/zngue/zng_app/db/api"
+	"reflect"
 )
 
-type V1LoginRouter *gin.RouterGroup
-
 func NewHttp() *gin.Engine {
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterTagNameFunc(func(fld reflect.StructField) string {
+			return fld.Tag.Get("json") // 改为使用 `json` 标签
+		})
+	}
 	engine := gin.New()
 	engine.Use(gin.Recovery(), gin.Logger())
 	engine.GET("/ping", func(ctx *gin.Context) {

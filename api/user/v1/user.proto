@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package api.user.v1;
+option go_package = "github.com/zngue/zng_layout/api/user/v1;v1";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "google/protobuf/empty.proto"; // 导入 Empty 类型
+//用户服务
+service User{
+  rpc List(ListUserRequest) returns (ListUserReply){
+    option (google.api.http) = {
+      get: "/v1/user/list"
+    };
+  }
+  rpc Create(CreateUserRequest) returns (CreateUserReply){
+    option (google.api.http) = {
+      post: "/v1/user/create"
+      body: "*"
+    };
+  }
+  rpc Update(UpdateUserRequest) returns (UpdateUserReply){
+    option (google.api.http) = {
+      post: "/v1/user/update"
+      body: "*"
+    };
+  }
+  rpc Delete(DeleteUserRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      post: "/v1/user/delete"
+      body: "*"
+    };
+  }
+  rpc Info(InfoUserRequest) returns (InfoUserReply){
+    option (google.api.http) = {
+      get: "/v1/user/info"
+    };
+  }
+  rpc UpdateStatus(UpdateStatusUserRequest) returns (UpdateStatusUserReply){
+    option (google.api.http) = {
+      post: "/v1/user/update_status"
+      body: "*"
+    };
+  }
+}
+message ListUserRequest{
+  int32 page = 1 ;
+  int32 page_size = 2;
+  string name = 3;
+  string phone = 4;
+}
+message ListUserReply{
+  int32 total = 1;
+  repeated InfoUserItem list = 2;
+}
+message InfoUserItem{
+  int32 id = 1;
+  string name = 2;
+  string phone = 3;
+  int32 status = 4;
+  int32 createdAt = 5;
+  string updatedAt = 6;
+  int32 sex = 7;
+  string avatar = 8;
+}
+message CreateUserRequest{
+  string name = 1 [(validate.rules).string = {min_len: 1, max_len: 20}];
+  string phone = 2 [(validate.rules).string = {min_len: 1, max_len: 11}];
+  int32 sex = 3;
+  string avatar = 4;
+}
+message CreateUserReply{
+  int32 id = 1;
+}
+message UpdateUserRequest{
+  int32 id = 1 [(validate.rules).int32.gt=0];
+  string name = 2 [(validate.rules).string = {min_len: 1, max_len: 20}];
+  string phone = 3 [(validate.rules).string = {min_len: 1, max_len: 11}];
+  int32 sex = 4;
+  string avatar = 5;
+}
+message UpdateUserReply{
+  int32 id = 1;
+}
+message DeleteUserRequest{
+  int32 id = 1 [(validate.rules).int32.gt=0];
+}
+message InfoUserRequest{
+  int32 id = 1 [(validate.rules).int32.gt=0];
+}
+message InfoUserReply{
+  int32 id = 1;
+  string name = 2;
+  string phone = 3;
+  int32 sex = 4;
+  string avatar = 5;
+}
+message UpdateStatusUserRequest{
+  int32 id = 1 [(validate.rules).int32.gt=0];
+  int32 status = 2;
+}
+message UpdateStatusUserReply{
+  int32 id = 1;
+}

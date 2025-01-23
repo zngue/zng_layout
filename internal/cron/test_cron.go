@@ -6,7 +6,7 @@ import (
 )
 
 type TestCron struct {
-	cron.IAppServer
+	cron.ICronServer
 }
 
 func NewTestCron() *TestCron {

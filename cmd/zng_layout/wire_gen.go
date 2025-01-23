@@ -8,13 +8,12 @@ package main
 
 import (
 	"github.com/zngue/zng_app/app"
+	"github.com/zngue/zng_layout/api/user/v1"
 	"github.com/zngue/zng_layout/internal/api"
 	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/cron"
-	"github.com/zngue/zng_layout/internal/model"
 	"github.com/zngue/zng_layout/internal/server"
 	"github.com/zngue/zng_layout/internal/server/http"
-	"github.com/zngue/zng_layout/internal/server/http/v1"
 )
 
 // Injectors from wire.go:
@@ -24,14 +23,9 @@ func initApp(cfg *conf.Bootstrap) (*app.App, func(), error) {
 	engine := http.NewHttp()
 	httpServer := http.NewService(cfg, engine)
 	routerGroup := http.NewHttpGroup(engine)
-	router := v1.NewV1Router(routerGroup)
-	db, err := model.NewDB(cfg)
-	if err != nil {
-		return nil, nil, err
-	}
-	dataDB := model.NewTest(db)
-	testApi := api.NewTestApi(router, dataDB)
-	routerApi := server.NewRouter(testApi)
+	userGinHttpService := api.NewUserService()
+	userGinHttpRouterService := v1.NewUserGinHttpRouterService(routerGroup, userGinHttpService)
+	routerApi := server.NewRouter(userGinHttpRouterService)
 	v := server.NewCombineRouter(routerApi)
 	v2 := app.NewRouter(v)
 	testCron := cron.NewTestCron()

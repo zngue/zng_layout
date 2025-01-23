@@ -24,6 +24,7 @@ func main() {
 	zng_app.AppName = serviceName
 	zng_app.SyncLogger = true
 	defaultConfig, err = pkg.NewConfig()
+	defaultConfig.Host = "39.98.204.118"
 	if err != nil {
 		log.Errorf("load config err NewConfig err %v", err)
 		panic(err)
