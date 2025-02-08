@@ -9,6 +9,7 @@ import (
 )
 
 func NewHttp() *gin.Engine {
+	binding.Query.Name()
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterTagNameFunc(func(fld reflect.StructField) string {
 			return fld.Tag.Get("json") // 改为使用 `json` 标签

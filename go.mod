@@ -2,7 +2,6 @@ module github.com/zngue/zng_layout
 
 go 1.23.2
 
-replace github.com/zngue/zng_app => G:\zngue\go\zng_app
 
 require (
 	github.com/envoyproxy/protoc-gen-validate v1.2.1
@@ -11,7 +10,6 @@ require (
 	github.com/golang/protobuf v1.5.0
 	github.com/google/wire v0.6.0
 	github.com/redis/go-redis/v9 v9.7.0
-	github.com/zngue/zng_app v0.0.0-00010101000000-000000000000
 	google.golang.org/genproto/googleapis/api v0.0.0-20250122153221-138b5a5a4fd4
 	google.golang.org/protobuf v1.36.3
 	gorm.io/gorm v1.25.12

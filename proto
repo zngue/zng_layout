@@ -1,4 +1,5 @@
 protoc --go_out=. /internal/conf/conf.proto
+protoc  --proto_path=./third_party  --go_out=.   third_party/validate/validate.proto
 
 protoc --plugin=protoc-gen-custom=./abc.exe --custom_out=.  app/conf/conf.proto
 
