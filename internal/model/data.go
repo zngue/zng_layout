@@ -8,4 +8,5 @@ var ProviderSet = wire.NewSet(
 	NewDB,
 	NewRedis,
 	NewTest,
+	NewUserRepo,
 )

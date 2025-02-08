@@ -10,43 +10,49 @@ service User{
   rpc List(ListUserRequest) returns (ListUserReply){
     option (google.api.http) = {
       get: "/v1/user/list"
+      action:list
     };
   }
-  rpc Create(CreateUserRequest) returns (CreateUserReply){
+  rpc Create(CreateUserRequest) returns (google.protobuf.Empty){
     option (google.api.http) = {
       post: "/v1/user/create"
       body: "*"
+      action:add
     };
   }
-  rpc Update(UpdateUserRequest) returns (UpdateUserReply){
+  rpc Update(UpdateUserRequest) returns (google.protobuf.Empty){
     option (google.api.http) = {
       post: "/v1/user/update"
       body: "*"
+      action:update
     };
   }
   rpc Delete(DeleteUserRequest) returns (google.protobuf.Empty){
     option (google.api.http) = {
       post: "/v1/user/delete"
       body: "*"
+      action:delete
     };
   }
   rpc Info(InfoUserRequest) returns (InfoUserReply){
     option (google.api.http) = {
       get: "/v1/user/info"
+      action:query
     };
   }
-  rpc UpdateStatus(UpdateStatusUserRequest) returns (UpdateStatusUserReply){
+  rpc UpdateStatus(UpdateStatusUserRequest) returns (google.protobuf.Empty){
     option (google.api.http) = {
       post: "/v1/user/update_status"
       body: "*"
+      action:update
     };
   }
 }
 message ListUserRequest{
   int32 page = 1 ;
   int32 page_size = 2;
-  string name = 3;
-  string phone = 4;
+  string name = 3 [(validate.rules).string={operator:like}];
+  string phone = 4[(validate.rules).string={operator:like}];
 }
 message ListUserReply{
   int32 total = 1;
@@ -62,6 +68,19 @@ message InfoUserItem{
   int32 sex = 7;
   string avatar = 8;
 }
+
+
+message UserDB{
+  int32 id = 1;
+  string name = 2;
+  string phone = 3;
+  int32 status = 4;
+  int32 createdAt = 5;
+  string updatedAt = 6;
+  int32 sex = 7;
+  string avatar = 8;
+}
+
 message CreateUserRequest{
   string name = 1 [(validate.rules).string = {min_len: 1, max_len: 20}];
   string phone = 2 [(validate.rules).string = {min_len: 1, max_len: 11}];
@@ -72,7 +91,7 @@ message CreateUserReply{
   int32 id = 1;
 }
 message UpdateUserRequest{
-  int32 id = 1 [(validate.rules).int32.gt=0];
+  int32 id = 1 [(validate.rules).int32={gt:0,operator:eq}];
   string name = 2 [(validate.rules).string = {min_len: 1, max_len: 20}];
   string phone = 3 [(validate.rules).string = {min_len: 1, max_len: 11}];
   int32 sex = 4;
@@ -82,10 +101,10 @@ message UpdateUserReply{
   int32 id = 1;
 }
 message DeleteUserRequest{
-  int32 id = 1 [(validate.rules).int32.gt=0];
+  int32 id = 1 [(validate.rules).int32={gt:0,operator:eq}];
 }
 message InfoUserRequest{
-  int32 id = 1 [(validate.rules).int32.gt=0];
+  int32 id = 1 [(validate.rules).int32={gt:0,operator:eq}];
 }
 message InfoUserReply{
   int32 id = 1;
@@ -95,8 +114,8 @@ message InfoUserReply{
   string avatar = 5;
 }
 message UpdateStatusUserRequest{
-  int32 id = 1 [(validate.rules).int32.gt=0];
-  int32 status = 2;
+  int32 id = 1 [(validate.rules).int32={gt:0,operator:eq}];
+  int32 status = 2[(validate.rules).int32={gt:0}];
 }
 message UpdateStatusUserReply{
   int32 id = 1;

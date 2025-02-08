@@ -6,10 +6,12 @@ import (
 )
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/zngue/zng_app/pkg/router"
-	"github.com/zngue/zng_app/pkg/validate"
 	"github.com/zngue/zng_app/pkg/bind"
+	"github.com/z
+	"github.com/zngue/zng_app/pkg/router"
+	"github.com/gin-gonic/gin"
 )
 
 // 服务操作
@@ -31,12 +33,12 @@ const OperationGinUrlUserUpdateStatus = "/v1/user/update_status"
 //服务接口用户服务
 
 type UserGinHttpService interface {
-	List(ctx *gin.Context, req *ListUserRequest) (rs *ListUserReply, err error)
-	Create(ctx *gin.Context, req *CreateUserRequest) (rs *CreateUserReply, err error)
-	Update(ctx *gin.Context, req *UpdateUserRequest) (rs *UpdateUserReply, err error)
-	Delete(ctx *gin.Context, req *DeleteUserRequest) (rs *empty.Empty, err error)
-	Info(ctx *gin.Context, req *InfoUserRequest) (rs *InfoUserReply, err error)
-	UpdateStatus(ctx *gin.Context, req *UpdateStatusUserRequest) (rs *UpdateStatusUserReply, err error)
+	List(ctx context.Context, req *ListUserRequest) (rs *ListUserReply, err error)
+	Create(ctx context.Context, req *CreateUserRequest) (rs *empty.Empty, err error)
+	Update(ctx context.Context, req *UpdateUserRequest) (rs *empty.Empty, err error)
+	Delete(ctx context.Context, req *DeleteUserRequest) (rs *empty.Empty, err error)
+	Info(ctx context.Context, req *InfoUserRequest) (rs *InfoUserReply, err error)
+	UpdateStatus(ctx context.Context, req *UpdateStatusUserRequest) (rs *empty.Empty, err error)
 }
 type UserGinHttpRouterService struct {
 	srv    UserGinHttpService
@@ -56,9 +58,9 @@ func (s *UserGinHttpRouterService) Register() []router.IRouter {
 	)
 }
 
-func (s *UserGinHttpRouterService) List(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) List(ginCtx *gin.Context) (rs any, err error) {
 	var in ListUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -66,14 +68,17 @@ func (s *UserGinHttpRouterService) List(ctx *gin.Context) (rs any, err error) {
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserList)
+	ginCtx.Set("operation", OperationGinUserList)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserList)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.List(ctx, &in)
 	return
 }
 
-func (s *UserGinHttpRouterService) Create(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) Create(ginCtx *gin.Context) (rs any, err error) {
 	var in CreateUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -81,14 +86,17 @@ func (s *UserGinHttpRouterService) Create(ctx *gin.Context) (rs any, err error) 
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserCreate)
+	ginCtx.Set("operation", OperationGinUserCreate)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserCreate)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.Create(ctx, &in)
 	return
 }
 
-func (s *UserGinHttpRouterService) Update(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) Update(ginCtx *gin.Context) (rs any, err error) {
 	var in UpdateUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -96,14 +104,17 @@ func (s *UserGinHttpRouterService) Update(ctx *gin.Context) (rs any, err error) 
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserUpdate)
+	ginCtx.Set("operation", OperationGinUserUpdate)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdate)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.Update(ctx, &in)
 	return
 }
 
-func (s *UserGinHttpRouterService) Delete(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) Delete(ginCtx *gin.Context) (rs any, err error) {
 	var in DeleteUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -111,14 +122,17 @@ func (s *UserGinHttpRouterService) Delete(ctx *gin.Context) (rs any, err error) 
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserDelete)
+	ginCtx.Set("operation", OperationGinUserDelete)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserDelete)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.Delete(ctx, &in)
 	return
 }
 
-func (s *UserGinHttpRouterService) Info(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) Info(ginCtx *gin.Context) (rs any, err error) {
 	var in InfoUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -126,14 +140,17 @@ func (s *UserGinHttpRouterService) Info(ctx *gin.Context) (rs any, err error) {
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserInfo)
+	ginCtx.Set("operation", OperationGinUserInfo)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserInfo)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.Info(ctx, &in)
 	return
 }
 
-func (s *UserGinHttpRouterService) UpdateStatus(ctx *gin.Context) (rs any, err error) {
+func (s *UserGinHttpRouterService) UpdateStatus(ginCtx *gin.Context) (rs any, err error) {
 	var in UpdateStatusUserRequest
-	err = bind.Bind(ctx, &in)
+	err = bind.Bind(ginCtx, &in)
 	if err != nil {
 		return
 	}
@@ -141,7 +158,10 @@ func (s *UserGinHttpRouterService) UpdateStatus(ctx *gin.Context) (rs any, err e
 	if err != nil {
 		return
 	}
-	ctx.Set("operation", OperationGinUserUpdateStatus)
+	ginCtx.Set("operation", OperationGinUserUpdateStatus)
+	ctx := ginCtx.Request.Context()
+	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdateStatus)
+	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
 	rs, err = s.srv.UpdateStatus(ctx, &in)
 	return
 }

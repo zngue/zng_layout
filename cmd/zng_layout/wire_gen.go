@@ -10,8 +10,10 @@ import (
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_layout/api/user/v1"
 	"github.com/zngue/zng_layout/internal/api"
+	"github.com/zngue/zng_layout/internal/biz"
 	"github.com/zngue/zng_layout/internal/conf"
 	"github.com/zngue/zng_layout/internal/cron"
+	"github.com/zngue/zng_layout/internal/model"
 	"github.com/zngue/zng_layout/internal/server"
 	"github.com/zngue/zng_layout/internal/server/http"
 )
@@ -23,7 +25,13 @@ func initApp(cfg *conf.Bootstrap) (*app.App, func(), error) {
 	engine := http.NewHttp()
 	httpServer := http.NewService(cfg, engine)
 	routerGroup := http.NewHttpGroup(engine)
-	userGinHttpService := api.NewUserService()
+	db, err := model.NewDB(cfg)
+	if err != nil {
+		return nil, nil, err
+	}
+	userRepo := model.NewUserRepo(db)
+	userUseCase := biz.NewUserUseCase(userRepo)
+	userGinHttpService := api.NewUserService(userUseCase)
 	userGinHttpRouterService := v1.NewUserGinHttpRouterService(routerGroup, userGinHttpService)
 	routerApi := server.NewRouter(userGinHttpRouterService)
 	v := server.NewCombineRouter(routerApi)

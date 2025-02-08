@@ -8,8 +8,8 @@ import (
 
 var ProviderSetRouter = wire.NewSet(
 	NewRouter,
-	ProviderSetPb,
 	NewCombineRouter,
+	v1.NewUserGinHttpRouterService,
 )
 var ProviderSetPb = wire.NewSet(
 	v1.NewUserGinHttpRouterService,

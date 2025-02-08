@@ -61,10 +61,6 @@ func (m *ListUserRequest) validate(all bool) error {
 
 	// no validation rules for PageSize
 
-	// no validation rules for Name
-
-	// no validation rules for Phone
-
 	if len(errors) > 0 {
 		return ListUserRequestMultiError(errors)
 	}
@@ -357,6 +353,108 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = InfoUserItemValidationError{}
+
+// Validate checks the field values on UserDB with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UserDB) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UserDB with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in UserDBMultiError, or nil if none found.
+func (m *UserDB) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UserDB) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Phone
+
+	// no validation rules for Status
+
+	// no validation rules for CreatedAt
+
+	// no validation rules for UpdatedAt
+
+	// no validation rules for Sex
+
+	// no validation rules for Avatar
+
+	if len(errors) > 0 {
+		return UserDBMultiError(errors)
+	}
+
+	return nil
+}
+
+// UserDBMultiError is an error wrapping multiple validation errors returned by
+// UserDB.ValidateAll() if the designated constraints aren't met.
+type UserDBMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UserDBMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UserDBMultiError) AllErrors() []error { return m }
+
+// UserDBValidationError is the validation error returned by UserDB.Validate if
+// the designated constraints aren't met.
+type UserDBValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UserDBValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UserDBValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UserDBValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UserDBValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UserDBValidationError) ErrorName() string { return "UserDBValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UserDBValidationError) Error() string {
+	if strings.Contains(e.reason, "syMsg") {
+		return strings.Trim(e.Reason(), "syMsg")
+	}
+	return e.field + e.reason
+}
+
+var _ error = UserDBValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UserDBValidationError{}
 
 // Validate checks the field values on CreateUserRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1136,7 +1234,19 @@ func (m *UpdateStatusUserRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for Status
+	if m.GetStatus() <= 0 {
+		var err error
+
+		err = UpdateStatusUserRequestValidationError{
+			field:  "status",
+			reason: "的值必须大于0",
+		}
+
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return UpdateStatusUserRequestMultiError(errors)
