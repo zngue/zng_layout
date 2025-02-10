@@ -5,6 +5,9 @@ option go_package = "github.com/zngue/zng_layout/api/user/v1;v1";
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 import "google/protobuf/empty.proto"; // 导入 Empty 类型
+
+
+
 //用户服务
 service User{
   rpc List(ListUserRequest) returns (ListUserReply){
@@ -50,7 +53,7 @@ service User{
 }
 message ListUserRequest{
   int32 page = 1 ;
-  int32 page_size = 2;
+  int32 pageSize = 2;
   string name = 3 [(validate.rules).string={operator:like}];
   string phone = 4[(validate.rules).string={operator:like}];
 }
@@ -79,6 +82,7 @@ message UserDB{
   string updatedAt = 6;
   int32 sex = 7;
   string avatar = 8;
+  repeated bytes userRole = 9;
 }
 
 message CreateUserRequest{

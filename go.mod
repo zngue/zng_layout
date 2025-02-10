@@ -9,7 +9,7 @@ require (
 	github.com/golang/protobuf v1.5.0
 	github.com/google/wire v0.6.0
 	github.com/redis/go-redis/v9 v9.7.0
-	github.com/zngue/zng_app v1.0.4
+	github.com/zngue/zng_app v1.0.5
 	google.golang.org/genproto/googleapis/api v0.0.0-20250122153221-138b5a5a4fd4
 	google.golang.org/protobuf v1.36.3
 	gorm.io/gorm v1.25.12

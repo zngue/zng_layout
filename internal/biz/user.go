@@ -11,19 +11,6 @@ type UserRepo interface {
 	Info(ctx context.Context, id int32) (reply *InfoUserReply,err error)
 	UpdateStatus(ctx context.Context, id int32,status int32) (err error)
 }
-type InfoUserReply struct {
-	Id int32 
-	Name string 
-	Phone string 
-	Sex int32 
-	Avatar string 
-}
-type ListUserRequest struct {
-	Page int32 
-	PageSize int32 
-	Name string 
-	Phone string 
-}
 type InfoUserItem struct {
 	Id int32 
 	Name string 
@@ -55,6 +42,19 @@ type UpdateUserReply struct {
 }
 type UpdateStatusUserReply struct {
 	Id int32 
+}
+type ListUserRequest struct {
+	Page int32 
+	PageSize int32 
+	Name string 
+	Phone string 
+}
+type InfoUserReply struct {
+	Id int32 
+	Name string 
+	Phone string 
+	Sex int32 
+	Avatar string 
 }
 type UserUseCase struct {
 	user UserRepo

@@ -71,6 +71,15 @@ func (s *UserGinHttpRouterService) List(ginCtx *gin.Context) (rs any, err error)
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserList)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.List(ctx, &in)
 	return
 }
@@ -89,6 +98,15 @@ func (s *UserGinHttpRouterService) Create(ginCtx *gin.Context) (rs any, err erro
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserCreate)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.Create(ctx, &in)
 	return
 }
@@ -107,6 +125,15 @@ func (s *UserGinHttpRouterService) Update(ginCtx *gin.Context) (rs any, err erro
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdate)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.Update(ctx, &in)
 	return
 }
@@ -125,6 +152,15 @@ func (s *UserGinHttpRouterService) Delete(ginCtx *gin.Context) (rs any, err erro
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserDelete)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.Delete(ctx, &in)
 	return
 }
@@ -143,6 +179,15 @@ func (s *UserGinHttpRouterService) Info(ginCtx *gin.Context) (rs any, err error)
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserInfo)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.Info(ctx, &in)
 	return
 }
@@ -161,6 +206,15 @@ func (s *UserGinHttpRouterService) UpdateStatus(ginCtx *gin.Context) (rs any, er
 	ctx := ginCtx.Request.Context()
 	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdateStatus)
 	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
+	middleWires := bind.GetMiddleWires()
+	if len(middleWires) > 0 {
+		for _, middleware := range middleWires {
+			err = middleware(ctx)
+			if err != nil {
+				return
+			}
+		}
+	}
 	rs, err = s.srv.UpdateStatus(ctx, &in)
 	return
 }
