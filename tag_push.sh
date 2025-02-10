@@ -13,6 +13,7 @@ msg=${2:-"Release ${version}"}
 git tag -a "${version}" -m "${msg}"
 git push origin "${version}"
 echo  "推送标签"
+# git@gitee.com:zngue_mic/zng_layout.git
 git push gitee-origin :refs/tags/"${version}"
 git push gitee-origin "${version}"
 echo  "推送标签到gitee"
