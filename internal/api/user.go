@@ -1,8 +1,10 @@
 package api
 
 import (
+	"fmt"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	v1 "github.com/zngue/zng_layout/api/user/v1"
+	"github.com/zngue/zng_layout/internal/biz"
 )
 
 import (
@@ -20,11 +22,7 @@ func NewUserService(user *biz.UserUseCase) v1.UserGinHttpService {
 }
 func (s *UserService) List(ctx context.Context, req *v1.ListUserRequest) (rs *v1.ListUserReply, err error) {
 	var reqData = &biz.ListUserRequest{}
-	total, list, err := s.user.List(ctx, reqData)
-	if err != nil {
-		return
-	}
-	fmt.Println("UserService->List", total, list, err)
+	fmt.Println(reqData)
 	return
 }
 func (s *UserService) Create(ctx context.Context, req *v1.CreateUserRequest) (rs *empty.Empty, err error) {
