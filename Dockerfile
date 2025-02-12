@@ -17,8 +17,7 @@ WORKDIR /build
 COPY . .
 RUN go mod init  github.com/zngue/zng_layout
 RUN go mod tidy
-RUN cd ./cmd/zng_layout && GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -ldflags="-s -w" -installsuffix cgo -o appRun ./...
-
+RUN GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -ldflags="-s -w" -installsuffix cgo -o appRun ./cmd/zng_layout
 FROM alpine:latest as prod
 RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
