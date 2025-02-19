@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/nacos-group/nacos-sdk-go/clients/naming_client"
 	"github.com/zngue/zng_app"
 	"github.com/zngue/zng_app/app"
 	"github.com/zngue/zng_app/config"
@@ -24,7 +25,6 @@ func main() {
 	zng_app.AppName = serviceName
 	zng_app.SyncLogger = true
 	defaultConfig, err = pkg.NewConfig()
-	defaultConfig.Host = "39.98.204.118"
 	if err != nil {
 		log.Errorf("load config err NewConfig err %v", err)
 		panic(err)
@@ -70,6 +70,12 @@ func RegisterFn(serviceName string, defaultConfig *pkg.DefaultConfig) option.Fn 
 			ServiceName: serviceName,
 			GroupName:   serviceName,
 		})
+		return
+	}
+}
+func NacosServerConn(conn naming_client.INamingClient) option.Fn {
+	return func(fn *nacos.CenterOptions) (fnErr error) {
+		fn.Server = conn
 		return
 	}
 }

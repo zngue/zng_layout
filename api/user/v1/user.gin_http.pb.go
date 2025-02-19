@@ -6,12 +6,17 @@ import (
 )
 
 import (
+	"github.com/zngue/zng_app/db/api"
 	"context"
-	"github.com/zngue/zng_app/pkg/router"
 	"github.com/zngue/zng_app/pkg/validate"
 	"github.com/zngue/zng_app/pkg/bind"
 	"github.com/gin-gonic/gin"
 )
+
+// 注册服务
+func RegisterUserGinServer(router *gin.RouterGroup, srv UserGinHttpService) *UserGinHttpRouterService {
+	return NewUserGinHttpRouterService(router, srv)
+}
 
 // 服务操作
 const OperationGinUserList = "api.user.v1.User.List"
@@ -46,181 +51,197 @@ type UserGinHttpRouterService struct {
 
 //服务注册用户服务
 
-func (s *UserGinHttpRouterService) Register() []router.IRouter {
-	return router.ApiServiceFn(
-		router.ApiGetFn(s.router, OperationGinUrlUserList, s.List),
-		router.ApiPostFn(s.router, OperationGinUrlUserCreate, s.Create),
-		router.ApiPostFn(s.router, OperationGinUrlUserUpdate, s.Update),
-		router.ApiPostFn(s.router, OperationGinUrlUserDelete, s.Delete),
-		router.ApiGetFn(s.router, OperationGinUrlUserInfo, s.Info),
-		router.ApiPostFn(s.router, OperationGinUrlUserUpdateStatus, s.UpdateStatus),
-	)
-}
-
-func (s *UserGinHttpRouterService) List(ginCtx *gin.Context) (rs any, err error) {
-	var in ListUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserList)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserList)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.List(ctx, &in)
-	return
-}
-
-func (s *UserGinHttpRouterService) Create(ginCtx *gin.Context) (rs any, err error) {
-	var in CreateUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserCreate)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserCreate)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.Create(ctx, &in)
-	return
-}
-
-func (s *UserGinHttpRouterService) Update(ginCtx *gin.Context) (rs any, err error) {
-	var in UpdateUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserUpdate)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdate)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.Update(ctx, &in)
-	return
-}
-
-func (s *UserGinHttpRouterService) Delete(ginCtx *gin.Context) (rs any, err error) {
-	var in DeleteUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserDelete)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserDelete)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.Delete(ctx, &in)
-	return
-}
-
-func (s *UserGinHttpRouterService) Info(ginCtx *gin.Context) (rs any, err error) {
-	var in InfoUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserInfo)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserInfo)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.Info(ctx, &in)
-	return
-}
-
-func (s *UserGinHttpRouterService) UpdateStatus(ginCtx *gin.Context) (rs any, err error) {
-	var in UpdateStatusUserRequest
-	err = bind.Bind(ginCtx, &in)
-	if err != nil {
-		return
-	}
-	err = validate.Validate(&in)
-	if err != nil {
-		return
-	}
-	ginCtx.Set("operation", OperationGinUserUpdateStatus)
-	ctx := ginCtx.Request.Context()
-	ctx = context.WithValue(ctx, "operation", OperationGinUserUpdateStatus)
-	ctx = context.WithValue(ctx, "gin_ctx", ginCtx)
-	middleWires := bind.GetMiddleWires()
-	if len(middleWires) > 0 {
-		for _, middleware := range middleWires {
-			err = middleware(ctx)
-			if err != nil {
-				return
-			}
-		}
-	}
-	rs, err = s.srv.UpdateStatus(ctx, &in)
-	return
+func (s *UserGinHttpRouterService) Register() {
+	s.router.GET(OperationGinUrlUserList, _User_List0_GIN_HTTP_Handler(s.srv))
+	s.router.POST(OperationGinUrlUserCreate, _User_Create0_GIN_HTTP_Handler(s.srv))
+	s.router.POST(OperationGinUrlUserUpdate, _User_Update0_GIN_HTTP_Handler(s.srv))
+	s.router.POST(OperationGinUrlUserDelete, _User_Delete0_GIN_HTTP_Handler(s.srv))
+	s.router.GET(OperationGinUrlUserInfo, _User_Info0_GIN_HTTP_Handler(s.srv))
+	s.router.POST(OperationGinUrlUserUpdateStatus, _User_UpdateStatus0_GIN_HTTP_Handler(s.srv))
 }
 func NewUserGinHttpRouterService(router *gin.RouterGroup, srv UserGinHttpService) *UserGinHttpRouterService {
 	return &UserGinHttpRouterService{
 		srv:    srv,
 		router: router,
+	}
+}
+
+func _User_List0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  ListUserRequest
+			err error
+			rs  *ListUserReply
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserList)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserList)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.List(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
+	}
+}
+
+func _User_Create0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  CreateUserRequest
+			err error
+			rs  *empty.Empty
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserCreate)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserCreate)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.Create(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
+	}
+}
+
+func _User_Update0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  UpdateUserRequest
+			err error
+			rs  *empty.Empty
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserUpdate)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserUpdate)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.Update(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
+	}
+}
+
+func _User_Delete0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  DeleteUserRequest
+			err error
+			rs  *empty.Empty
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserDelete)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserDelete)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.Delete(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
+	}
+}
+
+func _User_Info0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  InfoUserRequest
+			err error
+			rs  *InfoUserReply
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserInfo)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserInfo)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.Info(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
+	}
+}
+
+func _User_UpdateStatus0_GIN_HTTP_Handler(srv UserGinHttpService) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var (
+			in  UpdateStatusUserRequest
+			err error
+			rs  *empty.Empty
+		)
+		err = bind.Bind(c, &in)
+		if err != nil {
+			return
+		}
+		err = validate.Validate(&in)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		c.Set("operation", OperationGinUserUpdateStatus)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, "operation", OperationGinUserUpdateStatus)
+		ctx = context.WithValue(ctx, "gin_ctx", c)
+		ctx, err = bind.GetMiddleWires(ctx)
+		if err != nil {
+			api.DataApiWithErr(c, err, rs)
+			return
+		}
+		rs, err = srv.UpdateStatus(ctx, &in)
+		api.DataApiWithErr(c, err, rs)
 	}
 }

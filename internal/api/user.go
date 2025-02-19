@@ -15,7 +15,7 @@ type UserService struct {
 	user *biz.UserUseCase
 }
 
-func NewUserService(user *biz.UserUseCase) v1.UserGinHttpService {
+func NewUserService(user *biz.UserUseCase) *UserService {
 	return &UserService{
 		user: user,
 	}

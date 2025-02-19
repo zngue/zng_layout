@@ -5,7 +5,7 @@ import (
 	"github.com/zngue/zng_layout/internal/cron"
 )
 
-func NewCron(testCron *cron.TestCron) (items []c.ICron, err error) {
+func NewCronService(testCron *cron.TestCron) (items []c.ICron, err error) {
 	items = []c.ICron{
 		testCron,
 	}
