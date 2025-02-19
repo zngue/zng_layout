@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/nacos-group/nacos-sdk-go/clients/naming_client"
 	"github.com/zngue/zng_app"
 	"github.com/zngue/zng_app/app"
@@ -44,6 +45,8 @@ func main() {
 			nacos.DataWithLogLevel(nacos.INFO),
 			nacos.DataWithAppendToStdout(false),
 			nacos.DataWithHost(defaultConfig.Host),
+			nacos.DataWithCacheDir(fmt.Sprintf("logs/%s/cache", zng_app.AppName)),
+			nacos.DataWithLogDir(fmt.Sprintf("logs/%s/log", zng_app.AppName)),
 		},
 		CFns: []config.Fn{
 			config.WithDataId("config.yaml"),

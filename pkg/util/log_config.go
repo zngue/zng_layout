@@ -1,6 +1,8 @@
 package util
 
 import (
+	"fmt"
+	"github.com/zngue/zng_app"
 	"github.com/zngue/zng_app/log"
 	"io"
 	"os"
@@ -15,6 +17,7 @@ var logMap = map[string]log.LevelType{
 
 func LogConfig() *log.Config {
 	configDefault := log.WriterConfigDefault
+	configDefault.Filename = fmt.Sprintf("logs/%s/project.log", zng_app.AppName)
 	level := os.Getenv("LOG_LEVEL")
 	if logMap[level] > 0 {
 		configDefault.Level = logMap[level]
