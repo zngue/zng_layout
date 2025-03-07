@@ -1,4 +1,6 @@
-FROM golang:1.23.2 as builder
+ARG GO_VERSION
+ARG ALPINE_VERSION
+FROM $GO_VERSION as builder
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,direct
 ENV NACOS_HOST=rust_nacos
@@ -15,13 +17,18 @@ ENV LOG_URL=""
 WORKDIR /build
 #666
 COPY . .
-RUN go mod init  github.com/zngue/zng_layout
+RUN go mod init  gitee.com/zngue_mic/zng_layout
 RUN go mod tidy
-RUN GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -ldflags="-s -w" -installsuffix cgo -o appRun ./cmd/zng_layout
-FROM alpine:latest as prod
+RUN cd ./cmd/zng-pay-service && GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -ldflags="-s -w" -installsuffix cgo -o appRun ./...
+
+FROM $ALPINE_VERSION as prod
+RUN echo "https://mirrors.aliyun.com/alpine/v3.18/main" > /etc/apk/repositories
+RUN echo "https://mirrors.aliyun.com/alpine/v3.18/community" >> /etc/apk/repositories
+RUN apk update
 RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
 WORKDIR /go_run
 COPY --from=builder /build/cmd/zng_layout/appRun .
+COPY conf .
 EXPOSE  $HTTP_PORT
 ENTRYPOINT ["./appRun"]

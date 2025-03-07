@@ -1,21 +1,24 @@
-version: "3.9"
 networks:
   zngue_network:
     external: true
 services:
   zng_layout:
-    build: .
-    image: zngue/zng_layout:latest
+    build:
+      context: .
+      args:
+        GO_VERSION: ${GO_VERSION}
+        ALPINE_VERSION: ${ALPINE_VERSION}
+    image: zng_bs/mic:${PROJECT_NAME}.latest
     restart: always
     container_name: zng_layout
     env_file:
       - .env
     volumes:
       - log-volume:/go_run/logs
-    ports:
-      - "${HTTP_PORT:-16666}:${HTTP_PORT:-16666}"
     networks:
       - zngue_network
-
+volumes:
+  log-volume:
+    external: true
 
 
